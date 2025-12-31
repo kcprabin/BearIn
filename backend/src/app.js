@@ -20,7 +20,7 @@ app.use(cookierParser())
 
 // user routes
 import userRouter from "./routes/user.routes.js";
-app.use("/api/v1/users", userRouter);
+app.use("/api/v1/bearin/users", userRouter);
 
 
 
