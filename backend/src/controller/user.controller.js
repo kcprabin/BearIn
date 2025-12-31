@@ -1,7 +1,7 @@
 import { asynchandler } from "../utills/asynchandler.js";
 import { User } from "../model/user.model.js";
 
-const registerUser = asynchandler(async (req, res,) => {
+const registerUser = asynchandler( async (req, res,) => {
     // Registration logic here
     const { username, email, password , bio } = req.body;
 
@@ -29,13 +29,55 @@ const registerUser = asynchandler(async (req, res,) => {
      });
 });
 
+//generate token function
+const generateTokens = async (user) => {
+    try {
+        const accessTokenkey = await user.generateAccessToken();
+        const refreshTokenkey = await user.generateRefreshToken();
+        console.log("Generated Tokens:", { accessTokenkey, refreshTokenkey });
+        user.refreshTokens = refreshTokenkey;
+        await user.save();
+        return { accessTokenkey, refreshTokenkey };
+    } catch (error) {
+        console.error("Error generating tokens:", error);
+    }
+}
 const loginUser = asynchandler(async (req, res,) => {
     // Login logic here 
-    res.status(200).json({ message: "User logged in successfully" });
+    const { email, username, password } = req.body;
+
+    if ((!email?.trim() || !username?.trim()) || !password?.trim()) {
+        return res.status(400).json({ message: "Email or username and password are required" });
+    }
+
+    const user = await User.findOne({ $or: [{ email }, { username }] });
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    const isPasswordValid = await user.comparePassword(password);
+    if (!isPasswordValid) {
+        return res.status(401).json({ message: "Invalid password" });
+    }
+    const {refreshToken, accessToken} = await generateTokens(user);
+    console.log(refreshToken);
+    const options = {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "Strict",
+        maxAge: 7 * 24 * 1000, // 7 
+    };
+
+    res.status(200).json({ message: "User logged in successfully",
+        success: true,
+        data: user
+     })
+     .cookie("accessToken", accessToken, options);
 });
 
 const logoutUser = asynchandler(async (req, res,) => {
     // Logout logic here 
+
     res.status(200).json({ message: "User logged out successfully" });
 });             
 const getUserProfile = asynchandler(async (req, res,) => {

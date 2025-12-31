@@ -52,19 +52,19 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 };
 
 userSchema.methods.generateRefreshToken = function () {
-     jwt.sign(
+    return jwt.sign(
         { id: this._id,
           username: this.username,
           email: this.email
         },
         process.env.REFRESH_TOKEN_SECRECT,
-       process.env.REFRESH_TOKEN_EXPIRY
+      { expiresIn: process.env.REFRESH_TOKEN_EXPIRY}
     );
 }
 userSchema.methods.generateAccessToken = function () {
-     jwt.sign(
+     return jwt.sign(
         { id: this._id }, process.env.ACCESS_TOKEN_SECRECT,
-       process.env.ACCESS_TOKEN_EXPIRY
+       {expiresIn: process.env.ACCESS_TOKEN_EXPIRY}
     );
 }
 
