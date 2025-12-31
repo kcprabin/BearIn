@@ -1,8 +1,10 @@
 import express from "express"
 import cookierParser from "cookie-parser"
 import cors from "cors"
+import { Router } from "express";
+
 const app = express();
-  //basic setup
+  
 app.use(cors({
     origin: "http://localhost:3000",
     credentials: true
@@ -15,5 +17,12 @@ app.use(express.urlencoded({
     limit: "5mb"
 }))
 app.use(cookierParser())
+
+// user routes
+import userRouter from "./routes/user.routes.js";
+app.use("/api/v1/users", userRouter);
+
+
+
 
 export default app;
