@@ -59,8 +59,8 @@ const loginUser = asynchandler(async (req, res,) => {
     if (!isPasswordValid) {
         return res.status(401).json({ message: "Invalid password" });
     }
-    const {refreshToken, accessToken} = await generateTokens(user);
-    console.log(refreshToken);
+    const {refreshTokenkey, accessTokenkey} = await generateTokens(user);
+    console.log("Tokens in loginUser:", { accessTokenkey, refreshTokenkey });
     const options = {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -72,7 +72,7 @@ const loginUser = asynchandler(async (req, res,) => {
         success: true,
         data: user
      })
-     .cookie("accessToken", accessToken, options);
+     .cookie("accessToken", accessTokenkey, options);
 });
 
 const logoutUser = asynchandler(async (req, res,) => {
