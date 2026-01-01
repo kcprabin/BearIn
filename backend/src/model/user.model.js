@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config({
+    path: "./.env" 
+});
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -53,7 +58,7 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 
 userSchema.methods.generateRefreshToken = function () {
     return jwt.sign(
-        { id: this._id,
+        { _id: this._id,
           username: this.username,
           email: this.email
         },
@@ -63,7 +68,7 @@ userSchema.methods.generateRefreshToken = function () {
 }
 userSchema.methods.generateAccessToken = function () {
      return jwt.sign(
-        { id: this._id }, process.env.ACCESS_TOKEN_SECRECT,
+        { _id: this._id }, process.env.ACCESS_TOKEN_SECRECT,
        {expiresIn: process.env.ACCESS_TOKEN_EXPIRY}
     );
 }
