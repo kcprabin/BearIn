@@ -29,7 +29,6 @@ const registerUser = asynchandler(async (req, res) => {
   res.status(201).json({ message: "User registered successfully" });
 });
 
-//generate token function
 const generateTokens = async (user) => {
   try {
     const accessTokenkey = await user.generateAccessToken();
@@ -73,13 +72,14 @@ const loginUser = asynchandler(async (req, res) => {
 });
 
 const logoutUser = asynchandler(async (req, res) => {
-  // Logout logic here
- 
+ const User = req.user;
+  User.refreshTokens = "";
+  await User.save();  
+
   const options = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "Strict",
-    maxAge: 0,
   };
   res.clearCookie("accessToken", options);
   res
