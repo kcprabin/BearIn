@@ -94,5 +94,44 @@ const getUserProfile = asynchandler(async (req, res) => {
     user: User
    });
 });
+const changePassword = asynchandler(async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  const User = req.user;  
+  if(!oldPassword || !newPassword){
+    return res.status(400).json({message: "Old password and new password are required"});
+  }
+  const isPasswordValid = await User.comparePassword(oldPassword);
+  if (!isPasswordValid) {
+    return res.status(401).json({ message: "Invalid old password" });
+  }
+  User.password = newPassword;
+  await User.save();
+  res.status(200).json({ message: "Password changed successfully" }); 
+}); 
+const updateBio = asynchandler(async (req, res) => {
+  const { bio } = req.body;
+  const user = req.user;
+  if(!bio?.trim()){
+    return res.status(400).json({message: "At least one field is required to update"});
+  }
+  if(bio?.trim()){
+   await User.findByIdAndUpdate(user._id, { bio }, { new: true });
+  }
+  res.status(200).json({ message: "Profile updated successfully" });
+});
+const updateUserName = asynchandler(async (req, res) => {
+  const { username } = req.body;
+  if(!username?.trim()){
+    return res.status(400).json({message: "Username is required to update"});
+  }  
+  const existingUser = await User.findOne({ username });
+  if (existingUser) {
+    return res.status(409).json({ message: "Username is already taken" });
+  }
+  const user = req.user;
+  await User.findByIdAndUpdate(user._id, { username }, { new: true });
+  res.status(200).json({ message: "Username updated successfully" });
+});
 
-export { registerUser, loginUser, logoutUser, getUserProfile };
+
+export { registerUser, loginUser, logoutUser, getUserProfile, changePassword, updateBio, updateUserName };
