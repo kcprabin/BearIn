@@ -3,9 +3,9 @@ import {Message} from "../model/messege.model.js";
 
 
 const sendMessage = asynchandler(async (req, res) => {
-    const { senderId, receiverId, message } = req.body;
-
-     if (!senderId || !receiverId || !message) {
+    const { receiverId, encrypredmessage } = req.body;
+    const senderId = req.user._id;
+     if (!senderId ||  !encrypredmessage || !receiverId ) {
         return res.status(400).json({ error: "All fields are required" });
     }  
     
@@ -13,7 +13,8 @@ const sendMessage = asynchandler(async (req, res) => {
     const newMessage = new Message({
         senderId,
         receiverId,
-        messageText: message,
+        messageText: encrypredmessage,
+        expiredAt: new Date(Date.now() + 7*24*60*60*1000) // 7 days from now
     });
 
     await newMessage.save();

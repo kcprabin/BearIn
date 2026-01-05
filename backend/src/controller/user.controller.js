@@ -70,7 +70,6 @@ const loginUser = asynchandler(async (req, res) => {
   res.status(200)
     .json({ message: "User logged in successfully", success: true, data: user })
 });
-
 const logoutUser = asynchandler(async (req, res) => {
  const User = req.user;
   User.refreshTokens = "";
@@ -87,13 +86,7 @@ const logoutUser = asynchandler(async (req, res) => {
     .json({ message: "User logged out successfully" })
     
 });
-const getUserProfile = asynchandler(async (req, res) => {
-  const User = req.user;
 
-  res.status(200).json({ message: "User profile fetched successfully",
-    user: User
-   });
-});
 const changePassword = asynchandler(async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   const User = req.user;  
@@ -108,17 +101,7 @@ const changePassword = asynchandler(async (req, res) => {
   await User.save();
   res.status(200).json({ message: "Password changed successfully" }); 
 }); 
-const updateBio = asynchandler(async (req, res) => {
-  const { bio } = req.body;
-  const user = req.user;
-  if(!bio?.trim()){
-    return res.status(400).json({message: "At least one field is required to update"});
-  }
-  if(bio?.trim()){
-   await User.findByIdAndUpdate(user._id, { bio }, { new: true });
-  }
-  res.status(200).json({ message: "Profile updated successfully" });
-});
+
 const updateUserName = asynchandler(async (req, res) => {
   const { username } = req.body;
   if(!username?.trim()){
@@ -133,5 +116,4 @@ const updateUserName = asynchandler(async (req, res) => {
   res.status(200).json({ message: "Username updated successfully" });
 });
 
-
-export { registerUser, loginUser, logoutUser, getUserProfile, changePassword, updateBio, updateUserName };
+export { registerUser, loginUser, logoutUser, changePassword, updateUserName };
