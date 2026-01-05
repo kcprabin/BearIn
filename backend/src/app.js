@@ -22,6 +22,10 @@ app.use(cookierParser())
 import userRouter from "./routes/user.routes.js";
 app.use("/api/v1/bearin/users", userRouter);
 
+// message routes
+import messageRouter from "./routes/messege.routes.js";
+app.use("/api/v1/bearin/messages", messageRouter);
+
 
 
 
