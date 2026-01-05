@@ -17,17 +17,16 @@ const messegeSchema = new mongoose.Schema({
         required: true,  
     },
     messageText: {
-        type: String, 
-        default: null,
+        type: String, //encrypted text
+        required: true,
     },
-
-
     expiredAt: {
         type: Date, 
-        default: null,
-        indexed: true,
+        default: () => new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      required: true,
     }
 
 },{timestamps:true} ) 
+messegeSchema.index({ expiredAt: 1 }, { expireAfterSeconds: 0 });
 
 export const Messege = mongoose.model('Messege', messegeSchema);
