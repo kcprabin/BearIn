@@ -3,9 +3,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
-dotenv.config({
-    path: "./.env" 
-});
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -39,7 +36,11 @@ const userSchema = new mongoose.Schema({
     refreshTokens: {
         type: [String],
         default: [],
-    }   
+    },
+    activeStatus: {
+        type: Boolean,
+        default: false,
+    }
 
 }, { timestamps: true });
 
