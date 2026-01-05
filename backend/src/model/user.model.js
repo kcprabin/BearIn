@@ -23,25 +23,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: null,
     },
-    coverImage: {
-        type: String,
-        default: null,
-    },
-    bio: {
-        type: String,
-        default: "",
-    },
     refreshTokens: {
         type: [String],
         default: [],
-    },
-    activeStatus: {
-        type: Boolean,
-        default: false,
-    }
-
+    } 
 }, { timestamps: true });
-
 
 userSchema.pre("save", async function () {
     if (!this.isModified("password")) {
