@@ -17,11 +17,11 @@ const messegeSchema = new mongoose.Schema({
         required: true,  
     },
     messageText: {
-        type: String, //clipert text, 
+        type: String, 
         default: null,
     },
 
-    
+
     expiredAt: {
         type: Date, 
         default: null,
