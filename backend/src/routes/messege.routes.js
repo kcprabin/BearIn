@@ -9,6 +9,5 @@ router.post("/send", authCheck, sendMessage);
 
 
 
-
 export default router;
 
