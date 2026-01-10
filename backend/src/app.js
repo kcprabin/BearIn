@@ -1,12 +1,11 @@
 import express from "express"
 import cookierParser from "cookie-parser"
 import cors from "cors"
-import { Router } from "express";
-
+ 
 const app = express();
   
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: "http://localhost:5173",
     credentials: true
 }))
 app.use(express.json({
