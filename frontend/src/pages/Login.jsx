@@ -19,8 +19,8 @@ const Login = () => {
 
         <div className="flex flex-col gap-5">
           <div>
-            <label className="text-xs uppercase tracking-wide text-gray-400">
-              Email
+            <label className="text-2xs tracking-wide text-gray-400">
+              Email :
             </label>
             <input
               type="email"
@@ -30,8 +30,8 @@ const Login = () => {
           </div>
 
           <div>
-            <label className="text-xs uppercase tracking-wide text-gray-400">
-              Password
+            <label className="text-2xs tracking-wide text-gray-400">
+              Password :
             </label>
             <input
               type="password"
@@ -40,7 +40,7 @@ const Login = () => {
             />
           </div>
 
-          <button className="mt-2 py-2.5 rounded-lg bg-amber-400 text-black font-bold tracking-wide hover:bg-amber-300 active:scale-[0.98] transition-all">
+          <button className="mt-2 py-2.5 rounded-lg bg-amber-400 text-black font-bold tracking-wide hover:bg-amber-300 active:scale-[0.98] transition-all cursor-pointer">
             Sign In
           </button>
 
