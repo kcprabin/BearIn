@@ -12,14 +12,14 @@ const Login = () => {
           <h1 className="text-4xl font-extrabold text-amber-400 tracking-wide">
             BearIn
           </h1>
-          <p className="text-gray-300 mt-2 text-sm">
+          <p className="text-gray-300 mt-2 text-md">
             Sign in to your account
           </p>
         </div>
 
         <div className="flex flex-col gap-5">
           <div>
-            <label className="text-2xs tracking-wide text-gray-400">
+            <label className="text-sm tracking-wide text-gray-300">
               Email :
             </label>
             <input
@@ -30,7 +30,7 @@ const Login = () => {
           </div>
 
           <div>
-            <label className="text-2xs tracking-wide text-gray-400">
+            <label className="text-sm tracking-wide text-gray-300">
               Password :
             </label>
             <input
