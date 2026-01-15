@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config({ path: "./.env" });
 
-import { server } from "./Socket/socketin.js"; 
+import { server } from "./Socket/socket.js";
 import connectDB from "./database/conection.database.js";
 
 try {

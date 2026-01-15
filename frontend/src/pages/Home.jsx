@@ -1,13 +1,17 @@
 import React, { useEffect } from "react";
+
+// just for testing socket connection
+
+
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:8000"); // BACKEND URL
+const socket = io("http://localhost:8000"); 
 
 const Home = () => {
 
   useEffect(() => {
     socket.on("connect", () => {
-      console.log("connected", socket.id);
+      console.log("hrllo");
     });
 
     socket.on("connect_error", (err) => {
