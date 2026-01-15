@@ -1,10 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config({ path: "./.env" });
-import app from "./app.js";
 
-
+import { server } from "./Socket/socketin.js"; 
 import connectDB from "./database/conection.database.js";
-
 
 try {
   await connectDB();
@@ -13,6 +11,7 @@ try {
   console.error("DB connect failed", err);
 }
 
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
   console.log(`Server listening on ${process.env.PORT}`);
 });
+
