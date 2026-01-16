@@ -1,9 +1,13 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom"
+import { useAuth } from '../auth/auth'
+import { useState } from 'react'
 
 const Login = () => {
   const navigate = useNavigate()
-
+    const [email,setEmail]=useState('');
+    const [password,setPassword]=useState('');
+  const {Login}=useAuth();
   return (
     <div className="min-h-screen w-screen flex items-center justify-center bg-linear-to-br from-black via-gray-900 to-gray-800">
       <div className="w-full max-w-md rounded-2xl bg-white/10 backdrop-blur-2xl border border-white/20 shadow-[0_20px_60px_rgba(0,0,0,0.6)] p-8">
@@ -25,6 +29,8 @@ const Login = () => {
             <input
               type="email"
               placeholder="you@example.com"
+              value={email}
+              onChange={(e)=>{setEmail(e.target.value)}}
               className="mt-1 w-full px-4 py-2 rounded-lg bg-black/50 text-white border border-white/20 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
             />
           </div>
@@ -36,11 +42,13 @@ const Login = () => {
             <input
               type="password"
               placeholder="••••••••"
+              value={password}
+              onChange={(e)=>{setPassword(e.target.value)}}
               className="mt-1 w-full px-4 py-2 rounded-lg bg-black/50 text-white border border-white/20 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
             />
           </div>
 
-          <button className="mt-2 py-2.5 rounded-lg bg-amber-400 text-black font-bold tracking-wide hover:bg-amber-300 active:scale-[0.98] transition-all cursor-pointer">
+          <button className="mt-2 py-2.5 rounded-lg bg-amber-400 text-black font-bold tracking-wide hover:bg-amber-300 active:scale-[0.98] transition-all cursor-pointer" onClick={()=>{Login(email,password);}}>
             Sign In
           </button>
 

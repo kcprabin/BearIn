@@ -1,8 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom"
 
 const Register = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [Username,setUsername]=useState('');
+  const [email,setEmail]=useState('');
+  const [password,setPassword]=useState('');
+
+  const register=async(Username,email,password)=>{
+    const res=fetch('api/register',{
+      method:'POST',
+      headers:{
+        'Content-type':'application/json'
+      },
+      body:JSON.stringify(Username,email,password)
+    });
+
+    if(!res.ok){
+      console.error("registration failed");
+    }
+    navigate('/');
+
+  }
 
   return (
     <div className="min-h-screen w-screen flex items-center justify-center bg-linear-to-br from-black via-gray-900 to-gray-800">
@@ -26,6 +45,8 @@ const Register = () => {
             <input
               type="text"
               placeholder="Username"
+              value={Username}
+              onChange={(e)=>setUsername(e.target.value)}
               className="mt-1 w-full px-4 py-2 rounded-lg bg-black/50 text-white border border-white/20 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
             />
           </div>
@@ -38,6 +59,8 @@ const Register = () => {
             <input
               type="email"
               placeholder="you@example.com"
+              value={email}
+              onChange={(e)=>setEmail(e.target.value)}
               className="mt-1 w-full px-4 py-2 rounded-lg bg-black/50 text-white border border-white/20 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
             />
           </div>
@@ -49,6 +72,8 @@ const Register = () => {
             <input
               type="password"
               placeholder="••••••••"
+              value={password}
+              onChange={(e)=>setPassword(e.target.value)}
               className="mt-1 w-full px-4 py-2 rounded-lg bg-black/50 text-white border border-white/20 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
             />
           </div>
@@ -65,7 +90,7 @@ const Register = () => {
             />
           </div>
 
-          <button className="mt-2 py-2.5 rounded-lg bg-amber-400 text-black font-bold tracking-wide hover:bg-amber-300 active:scale-[0.98] transition-all cursor-pointer">
+          <button className="mt-2 py-2.5 rounded-lg bg-amber-400 text-black font-bold tracking-wide hover:bg-amber-300 active:scale-[0.98] transition-all cursor-pointer" onClick={()=>{register(Username,email,password);}}>
             Sign Up
           </button>
 

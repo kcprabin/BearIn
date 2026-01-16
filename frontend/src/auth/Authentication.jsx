@@ -1,0 +1,61 @@
+import React, { useState } from 'react'
+import { AuthContext } from './auth'
+import { useNavigate } from 'react-router-dom';
+const Authentication = ({children}) => {
+    const navigate=useNavigate();
+    const [user,setUser]=useState(null);
+    const [loading,setLoading]=useState(false);
+
+    const Login=async({email,password})=>{
+                const res=await fetch('api/login',{
+                    method:"POST",
+                    credentials:"include",
+                    headers:{
+                        'Content-type':'application/json'
+                    },
+                    body:JSON.stringify(email,password)
+                });
+
+                if (!res.ok){
+                    console.error("login failed");
+                }
+                 const data = await checkauth();
+                if(data){
+                    navigate('/');
+                }
+    }
+
+    const checkauth=async()=>{
+        const res=await fetch('api/me',{
+            method:'GET',
+            credentials:true
+        });
+        if(res.status==401){
+            console.error("something went wrong");
+            setUser(null);
+        }else{
+            const data=res.json()
+            setUser(data);
+            setLoading(true);
+            
+        }
+    }
+
+    const Logout=async()=>{
+        fetch('api/logout',{
+            method:'POST',
+            credentials:true
+        });
+        setUser(null);
+        navigate('/login');
+    }
+
+
+  return (
+    <AuthContext.Provider value={{user,Login,checkauth,loading,Logout}}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
+
+export default Authentication
