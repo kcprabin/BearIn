@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom"
+import { API } from '../../api';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -8,12 +9,12 @@ const Register = () => {
   const [password,setPassword]=useState('');
 
   const register=async(Username,email,password)=>{
-    const res=fetch('api/register',{
+    const res=fetch(`${API}/register`,{
       method:'POST',
       headers:{
         'Content-type':'application/json'
       },
-      body:JSON.stringify(Username,email,password)
+      body:JSON.stringify({Username,email,password})
     });
 
     if(!res.ok){

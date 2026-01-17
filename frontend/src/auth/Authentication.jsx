@@ -1,19 +1,20 @@
 import React, { useState } from 'react'
 import { AuthContext } from './auth'
 import { useNavigate } from 'react-router-dom';
+import { API } from '../../api';
 const Authentication = ({children}) => {
     const navigate=useNavigate();
     const [user,setUser]=useState(null);
     const [loading,setLoading]=useState(false);
 
     const Login=async({email,password})=>{
-                const res=await fetch('api/login',{
+                const res=await fetch(`${API}/login`,{
                     method:"POST",
                     credentials:"include",
                     headers:{
                         'Content-type':'application/json'
                     },
-                    body:JSON.stringify(email,password)
+                    body:JSON.stringify({email,password})
                 });
 
                 if (!res.ok){
@@ -26,7 +27,7 @@ const Authentication = ({children}) => {
     }
 
     const checkauth=async()=>{
-        const res=await fetch('api/me',{
+        const res=await fetch(`${API}/me`,{
             method:'GET',
             credentials:true
         });
@@ -42,7 +43,7 @@ const Authentication = ({children}) => {
     }
 
     const Logout=async()=>{
-        fetch('api/logout',{
+        fetch(`${API}/logout`,{
             method:'POST',
             credentials:true
         });
