@@ -98,7 +98,7 @@ const Register = () => {
           <div className="text-center text-sm text-gray-300">
             Already have an account?{" "}
             <span
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/")}
               className="text-amber-400 font-semibold cursor-pointer hover:underline"
             >
               Login

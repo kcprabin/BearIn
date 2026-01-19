@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { AuthContext } from './auth'
-import { useNavigate } from 'react-router-dom';
 import { API } from '../../api';
 const Authentication = ({children}) => {
-    const navigate=useNavigate();
     const [user,setUser]=useState(null);
     const [loading,setLoading]=useState(false);
 
@@ -20,10 +18,8 @@ const Authentication = ({children}) => {
                 if (!res.ok){
                     console.error("login failed");
                 }
-                 const data = await checkauth();
-                if(data){
-                    navigate('/');
-                }
+                 return await checkauth();
+               
     }
 
     const checkauth=async()=>{
@@ -48,7 +44,6 @@ const Authentication = ({children}) => {
             credentials:true
         });
         setUser(null);
-        navigate('/login');
     }
 
 
