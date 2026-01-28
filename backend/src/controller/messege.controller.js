@@ -14,7 +14,7 @@ const sendMessage = asynchandler(async (req, res) => {
         senderId,
         receiverId,
         messageText: encrypredmessage,
-        expiredAt: new Date(Date.now() + 7*24*60*60*1000) // 7 days from now
+        expiredAt: new Date(Date.now() + 7*24*60*60*1000) 
     });
 
     await newMessage.save();
