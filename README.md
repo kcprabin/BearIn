@@ -3,7 +3,7 @@
 
 A real-time chat application (backend + frontend). This repository contains a Node.js/Express backend and a Vite + React frontend.
 
-**Quick Overview**
+**Quick Overview**l
 - **Backend**: Node.js, Express, MongoDB, Socket.IO, JWT authentication. See [backend](backend).
 - **Frontend**: Vite + React. See [frontend](frontend).
 
