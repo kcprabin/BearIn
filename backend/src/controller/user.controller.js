@@ -28,7 +28,6 @@ const registerUser = asynchandler(async (req, res) => {
 
   res.status(201).json({ message: "User registered successfully" });
 });
-
 const generateTokens = async (user) => {
   try {
     const accessTokenkey = await user.generateAccessToken();

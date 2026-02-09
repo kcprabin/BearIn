@@ -8,16 +8,33 @@ const Login = () => {
   axios.defaults.withCredentials = true
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
 
   const navigate = useNavigate()
 
  const sendRequest = () => {
+  setError("") // Clear previous errors
   axios.post(`${baseURL}/users/login`, { username, password }).then((res) => {
     if (res.status === 200) {
       navigate("/home")
     }
   }).catch((err) => {
     console.log(err)
+    if (err.response) {
+      // Server responded with error status
+      if (err.response.status === 401 || err.response.status === 404) {
+        setError("Invalid username or password")
+      } else if (err.response.data?.message) {
+        setError(err.response.data.message)
+      } else {
+        setError("Login failed. Please try again.")
+      }
+    } else if (err.request) {
+      // Request made but no response
+      setError("Cannot connect to server. Please check your connection.")
+    } else {
+      setError("An error occurred. Please try again.")
+    }
   })
 }
   const handleLogin = (e) => {
@@ -28,14 +45,14 @@ const Login = () => {
   return (
     <div className="min-h-screen w-screen flex items-center justify-center bg-linear-to-br from-black via-gray-900 to-gray-800">
       <div className="w-full max-w-md rounded-2xl bg-white/10 backdrop-blur-2xl border border-white/20 shadow-[0_20px_60px_rgba(0,0,0,0.6)] p-8">
-        
+        {error && <p className="text-red-500 text-sm mb-4">{error}</p>} 
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-extrabold text-amber-400 tracking-wide">
             BearIn
           </h1>
           <p className="text-gray-300 mt-2 text-sm">
             Sign in to your account
-          </p>
+          </p>    
         </div>
 
         <div className="flex flex-col gap-5">
