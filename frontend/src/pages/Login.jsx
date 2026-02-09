@@ -11,14 +11,18 @@ const Login = () => {
 
   const navigate = useNavigate()
 
+ const sendRequest = () => {
   axios.post(`${baseURL}/users/login`, { username, password }).then((res) => {
-    console.log(res)
+    if (res.status === 200) {
+      navigate("/home")
+    }
   }).catch((err) => {
     console.log(err)
   })
-
+}
   const handleLogin = (e) => {
     e.preventDefault() 
+    sendRequest()
   }
 
   return (
