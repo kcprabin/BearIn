@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import { useState } from "react"
 import { baseURL } from "../../apicenterlize"
+import { authContext } from "../auth/Authentication"
+import { useContext } from "react"
+import { set } from 'mongoose'
 
 const Login = () => {
   axios.defaults.withCredentials = true
@@ -11,12 +14,15 @@ const Login = () => {
   const [error, setError] = useState("")
 
   const navigate = useNavigate()
+  const { login, setUserid } = useContext(authContext)
 
  const sendRequest = () => {
   setError("") 
   axios.post(`${baseURL}/users/login`, { username, password }).then((res) => {
     if (res.status === 200) {
       navigate("/home")
+      login()
+      setUserid(res.data._id)
     }
   }).catch((err) => {
     console.log(err)
