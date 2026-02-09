@@ -4,14 +4,14 @@ dotenv.config({ path: "./.env" });
 import { server } from "./Socket/socket.js";
 import connectDB from "./database/conection.database.js";
 
-try {
-  await connectDB();
-  console.log("Database connected");
-} catch (err) {
-  console.error("DB connect failed", err);
-}
+connectDB().then(() => {
+  console.log("Database connected successfully");
 
-server.listen(process.env.PORT, () => {
-  console.log(`Server listening on ${process.env.PORT}`);
+  server.listen(process.env.PORT, () => {
+    console.log(`Server listening on ${process.env.PORT}`);
+  });
+
+}).catch((error) => {
+  console.error("Failed to connect to the database:", error);
+  process.exit(1);
 });
-

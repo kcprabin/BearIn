@@ -1,57 +1,25 @@
-import React, { useState } from 'react'
-import { AuthContext } from './auth'
-import { API } from '../../api';
-const Authentication = ({children}) => {
-    const [user,setUser]=useState(null);
-    const [loading,setLoading]=useState(false);
+import { useState, createContext } from "react"
 
-    const Login=async({email,password})=>{
-                const res=await fetch(`${API}/login`,{
-                    method:"POST",
-                    credentials:"include",
-                    headers:{
-                        'Content-type':'application/json'
-                    },
-                    body:JSON.stringify({email,password})
-                });
+const authContext = createContext();
 
-                if (!res.ok){
-                    console.error("login failed");
-                }
-                 return await checkauth();
-               
+const AuthProvider = ({children})=>{
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [userid , setUserid] = useState(null)
+
+    const login = () => {
+        setIsAuthenticated(true)
+        setUserid(userid)
     }
 
-    const checkauth=async()=>{
-        const res=await fetch(`${API}/me`,{
-            method:'GET',
-            credentials:true
-        });
-        if(res.status==401){
-            console.error("something went wrong");
-            setUser(null);
-        }else{
-            const data=res.json()
-            setUser(data);
-            setLoading(true);
-            
-        }
+    const logout = () => {
+        setIsAuthenticated(false)
+        setUserid(null)
     }
 
-    const Logout=async()=>{
-        fetch(`${API}/logout`,{
-            method:'POST',
-            credentials:true
-        });
-        setUser(null);
-    }
-
-
-  return (
-    <AuthContext.Provider value={{user,Login,checkauth,loading,Logout}}>
-      {children}
-    </AuthContext.Provider>
-  )
+    return (
+        <authContext.Provider value={{isAuthenticated, login, logout}}>
+            {children}
+        </authContext.Provider>
+    )
 }
-
-export default Authentication
+export { AuthProvider, authContext };   
