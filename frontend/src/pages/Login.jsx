@@ -13,7 +13,7 @@ const Login = () => {
   const navigate = useNavigate()
 
  const sendRequest = () => {
-  setError("") // Clear previous errors
+  setError("") 
   axios.post(`${baseURL}/users/login`, { username, password }).then((res) => {
     if (res.status === 200) {
       navigate("/home")
@@ -21,7 +21,6 @@ const Login = () => {
   }).catch((err) => {
     console.log(err)
     if (err.response) {
-      // Server responded with error status
       if (err.response.status === 401 || err.response.status === 404) {
         setError("Invalid username or password")
       } else if (err.response.data?.message) {
@@ -30,7 +29,6 @@ const Login = () => {
         setError("Login failed. Please try again.")
       }
     } else if (err.request) {
-      // Request made but no response
       setError("Cannot connect to server. Please check your connection.")
     } else {
       setError("An error occurred. Please try again.")
