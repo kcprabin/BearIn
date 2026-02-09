@@ -41,16 +41,16 @@ const generateTokens = async (user) => {
   }
 };
 const loginUser = asynchandler(async (req, res) => {
-  // Login logic here
-  const { email, username, password } = req.body;
+  
+  const { username, password } = req.body;
 
-  if (!email?.trim() || !username?.trim() || !password?.trim()) {
+  if (!username?.trim() || !password?.trim()) {
     return res
       .status(400)
-      .json({ message: "Email or username and password are required" });
+      .json({ message: "Username and password are required" });
   }
 
-  const user = await User.findOne({ $or: [{ email }, { username }] });
+  const user = await User.findOne({ username });
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }

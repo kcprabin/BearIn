@@ -1,9 +1,5 @@
 import React, { useEffect } from "react";
 
-// just for testing socket connection
-// npm i hana la naya package xha
-
-
 import { io } from "socket.io-client";
 
 const socket = io("http://localhost:8000"); 

@@ -1,8 +1,25 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom"
+import axios from "axios"
+import { useState } from "react"
+import { baseURL } from "../../apicenterlize"
 
 const Login = () => {
+  axios.defaults.withCredentials = true
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+
   const navigate = useNavigate()
+
+  axios.post(`${baseURL}/users/login`, { username, password }).then((res) => {
+    console.log(res)
+  }).catch((err) => {
+    console.log(err)
+  })
+
+  const handleLogin = (e) => {
+    e.preventDefault() 
+  }
 
   return (
     <div className="min-h-screen w-screen flex items-center justify-center bg-linear-to-br from-black via-gray-900 to-gray-800">
@@ -20,12 +37,13 @@ const Login = () => {
         <div className="flex flex-col gap-5">
           <div>
             <label className="text-2xs tracking-wide text-gray-400">
-              Email :
+              Username :
             </label>
             <input
-              type="email"
-              placeholder="you@example.com"
+              type="text"
+              placeholder="yourusername"
               className="mt-1 w-full px-4 py-2 rounded-lg bg-black/50 text-white border border-white/20 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
+              value={username} onChange={(e) => setUsername(e.target.value)}
             />
           </div>
 
@@ -37,10 +55,11 @@ const Login = () => {
               type="password"
               placeholder="••••••••"
               className="mt-1 w-full px-4 py-2 rounded-lg bg-black/50 text-white border border-white/20 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
+              value={password} onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
-          <button className="mt-2 py-2.5 rounded-lg bg-amber-400 text-black font-bold tracking-wide hover:bg-amber-300 active:scale-[0.98] transition-all cursor-pointer">
+          <button className="mt-2 py-2.5 rounded-lg bg-amber-400 text-black font-bold tracking-wide hover:bg-amber-300 active:scale-[0.98] transition-all cursor-pointer" onClick={handleLogin}>
             Sign In
           </button>
 

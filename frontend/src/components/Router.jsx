@@ -6,9 +6,9 @@ import Home from "../pages/Home";
 const Router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route path="/login" element={<Login />} />
+      <Route path="/login"  element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/" element={<Home/>}/>
+      <Route path="/" element={<Login/>}/>
     </Route>
   )
 );
